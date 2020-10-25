@@ -18,8 +18,18 @@ class Champion:
         site_content = requests.get(url).content
         soup = BeautifulSoup(site_content, "html.parser")
 
-        runes = []
+        #Processing titles
+        titles = []
+        unprocessed_titles = soup.find_all("div", class_="perk-style-title")[2:]
 
+        for title in unprocessed_titles:
+            data = str(title).replace('<div class="perk-style-title">', "")
+            data = data.replace("</div>", "")
+
+            titles.append(data)
+
+        #Processing runes
+        runes = []
         unprocessed_runes = soup.find_all("div", class_="perk-active")
 
         for i in unprocessed_runes:
@@ -28,7 +38,7 @@ class Champion:
 
             runes.append(data[0].replace("The Rune ", ""))
 
-        return runes[6:]
+        return titles, runes[6:]
 
     #Working
     def _get_spells(self):
@@ -71,28 +81,38 @@ class Champion:
 
         return processed_items
 
-
+    #Working
     def get_build(self):
-        runes = self._get_runes()
+        titles, runes = self._get_runes()
         items = self._get_items()
         spells = self._get_spells()
 
-        runes_str = ""
+        primary_runes_str = ""
+        secondary_runes_str = ""
         items_str = ""
         spells_str = ""
 
-        for rune in runes:
-            runes_str += f"`{rune}`, "
+        #for primary runes
+        for rune in runes[:2]:
+            primary_runes_str += f"`{rune}`, "
+
+        #for secondary runes
+        for rune in runes[4:]:
+            secondary_runes_str += f"`{rune}`, "
 
         for item in items:
-            items_str += f"`{item}`, "
+            items_str += f"{item}, "
 
         for spell in spells:
-            spells_str += f"`{spell}`, "
+            spells_str += f"*{spell}*, "
 
         answer = f"""
-> Runy: {runes_str}
-> Itemki: {items_str}
-> Spelle: {spells_str}"""
+> **Runy**: 
+>   {titles[0]} => {primary_runes_str}
+>   {titles[1]} => {secondary_runes_str}
+> **Itemki**: 
+>   {items_str}
+> **Spelle**: 
+>   {spells_str}"""
 
         return answer
