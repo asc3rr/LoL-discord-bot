@@ -13,7 +13,7 @@ client = discord.Client()
 ### Reading messages
 @client.event
 async def on_message(msg):
-    if msg.content.find("league.") != -1:
+    if msg.content.find("lol.") != -1:
         champion_name = str(msg.content).replace("league.", "")
 
         champion = Champion(champion_name)
