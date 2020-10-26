@@ -57,10 +57,8 @@ class Champion:
 
             spells.append(processed_spell)
 
-        spells.pop(-1)
-        spells.pop(-1)
 
-        return spells
+        return spells[:2]
 
     #Working
     def _get_items(self):
@@ -92,8 +90,10 @@ class Champion:
         items_str = ""
         spells_str = ""
 
+        print(len(runes))
+
         #for primary runes
-        for rune in runes[:2]:
+        for rune in runes[:4]:
             primary_runes_str += f"`{rune}`, "
 
         #for secondary runes
