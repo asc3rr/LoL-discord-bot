@@ -18,7 +18,7 @@ async def on_message(msg):
     if msg.content.find(PREFIX) != -1:
         champion_name = str(msg.content).replace(PREFIX, "")
 
-        champion = Champion(champion_name)
+        champion = Champion(champion_name.lower())
 
         build = champion.get_build()
 
