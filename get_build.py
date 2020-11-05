@@ -1,3 +1,12 @@
+"""
+### Class that handle getting champion builds
+Gets runes, bulids and sumonner spells for given champion
+
+Usage:
+>>> champion = Champion("jax")
+>>> full_build = champion.get_build()
+"""
+
 from bs4 import BeautifulSoup
 import requests
 
@@ -8,7 +17,12 @@ class Champion:
     spells = None
     items = None
 
-    def __init__(self, champion_name):
+    def __init__(self, champion_name:str):
+        """
+        ## Champion
+
+         - champion_name - champion name that we want to get build for.
+        """
         self.champion_name = champion_name
 
     #Working
@@ -81,6 +95,10 @@ class Champion:
 
     #Working
     def get_build(self):
+        """
+        ### Returns discord formatted string of runes, build and sumonner spells
+        """
+
         titles, runes = self._get_runes()
         items = self._get_items()
         spells = self._get_spells()

@@ -1,6 +1,5 @@
 import get_build
 import get_pos
-#import help
 
 import discord
 
@@ -78,3 +77,5 @@ async def on_message(msg):
             await msg.channel.send(result)
 
 client.run(token)
+
+#TODO pobieranie statystyk z op.gg

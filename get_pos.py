@@ -1,3 +1,12 @@
+"""
+### Class that handle champions for given positions
+Gets list of champions that should play on given position
+
+Usage:
+>>> pos = Position("top")
+>>> list_of_champions = pos.get_champions()
+"""
+
 from bs4 import BeautifulSoup
 import requests
 
@@ -7,6 +16,11 @@ class Position:
     url = "https://rankedboost.com/{}-tier-list/"
 
     def __init__(self, position_name:str):
+        """
+        ## Position
+
+         - position_name - Name of position that we want champions for
+        """
         self.position_name = position_name
 
         if position_name == "top" or position_name == "mid":
@@ -32,6 +46,10 @@ class Position:
         return processed_data
 
     def get_champions(self):
+        """
+        ### Returns discord formated string of champions
+        """
+
         champions = self._make_request()
 
         output_string = f"""
