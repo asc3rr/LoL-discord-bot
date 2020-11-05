@@ -2,15 +2,16 @@ import get_build
 import get_pos
 
 import discord
+import json
 
-PREFIX = "lol."
-POSITIONS = ["top", "mid", "adc", "support", "jungle"]
-BOT_NAME = "betaLeagueBot#7189" # name on discord
+def get_config():
+    try:
+        json_data = json.load(open("config.json"))
 
-def read_token():
-    with open("token.txt", "r") as token_file:
-        lines = token_file.readlines()
-        return lines[0].strip()
+        return json_data
+
+    except:
+        raise FileNotFoundError(f"Unable to open config.json")
 
 def help_page(error=""):
     output = f"""
@@ -57,10 +58,16 @@ def execute_command(command):
 
         return champion.get_build()
 
-
-token = read_token()
-
+## setting up
 client = discord.Client()
+
+config = get_config()
+
+PREFIX = config["prefix"]
+POSITIONS = ["top", "mid", "adc", "support", "jungle"]
+BOT_NAME = config["bot_name"] # name on discord
+API_KEY = config["api_key"]
+TOKEN = config["token"]
 
 ### Reading messages
 @client.event
@@ -76,6 +83,6 @@ async def on_message(msg):
 
             await msg.channel.send(result)
 
-client.run(token)
+client.run(TOKEN)
 
 #TODO pobieranie statystyk z op.gg
