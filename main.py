@@ -51,7 +51,7 @@ def execute_command(command):
 
         else:
             position = get_pos.Position(current_pos)
-            return position.make_request()
+            return position.get_champions()
 
     elif command[0] == "chemp":
         champion = get_build.Champion(command[1])

@@ -90,8 +90,6 @@ class Champion:
         items_str = ""
         spells_str = ""
 
-        print(len(runes))
-
         #for primary runes
         for rune in runes[:4]:
             primary_runes_str += f"`{rune}`, "
@@ -101,12 +99,14 @@ class Champion:
             secondary_runes_str += f"`{rune}`, "
 
         for item in items:
-            items_str += f"{item}, "
+            items_str += f"*{item}*, "
 
         for spell in spells:
             spells_str += f"*{spell}*, "
 
         answer = f"""
+Champion: {self.champion_name.capitalize()}
+Build:
 > **Runy**: 
 >   {titles[0]} => {primary_runes_str}
 >   {titles[1]} => {secondary_runes_str}
