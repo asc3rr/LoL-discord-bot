@@ -63,7 +63,7 @@ def execute_command(command):
     elif command[0].lower() == "stats":
         summoner_name = command[1]
 
-        player = Player(summoner_name, "RGAPI-0c5a3e2e-7059-4152-9ff3-c6b6085e223a", "eun1", "europe")
+        player = Player(summoner_name, API_KEY, "eun1", "europe")
 
         return player.get_stats()
 
