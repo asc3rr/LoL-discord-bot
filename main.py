@@ -1,3 +1,4 @@
+from get_stats import Player
 import get_build
 import get_pos
 
@@ -18,24 +19,25 @@ def help_page(error=""):
 ===== **Strona Pomocy** ====
 {error}
 > Aby uzyskać build na daną postać wpisz `{PREFIX}chemp.<NAZWA_POSTACI>`
-> Aby zobaczyć jakie postacie idą na daną pozycję, wpisz `{PREFIX}pos.<POZYCJA>` (top, mid, adc, support, jungle)"""
+> Aby zobaczyć jakie postacie idą na daną pozycję, wpisz `{PREFIX}pos.<POZYCJA>` (top, mid, adc, support, jungle)
+> Aby uzyskać statystyki innego gracza, wpisz `{PREFIX}stats.<NAZWA_GRACZA>`(nazwa gracza z zachowaniem wielkości liter)"""
 
     return output
 
 def execute_command(command):
     command = command.split(".")
 
-    if command[0] == "help":
+    if command[0].lower() == "help":
         return help_page()
 
     try:
-        if command[1] == "get_pos":
+        if command[1].lower() == "get_pos":
             pass
     
     except:
         return help_page("**_BŁĄD: Nie podałeś wystarczającej ilości argumentów (elementy po kropce (np. '.chemp'))_**")
 
-    if command[0] == "pos":
+    if command[0].lower() == "pos":
         global POSITIONS
 
         current_pos = command[1]
@@ -53,10 +55,17 @@ def execute_command(command):
             position = get_pos.Position(current_pos)
             return position.get_champions()
 
-    elif command[0] == "chemp":
+    elif command[0].lower() == "chemp":
         champion = get_build.Champion(command[1])
 
         return champion.get_build()
+
+    elif command[0].lower() == "stats":
+        summoner_name = command[1]
+
+        player = Player(summoner_name, "RGAPI-0c5a3e2e-7059-4152-9ff3-c6b6085e223a", "eun1", "europe")
+
+        return player.get_stats()
 
 ## setting up
 client = discord.Client()
@@ -76,13 +85,10 @@ async def on_message(msg):
         author = str(msg.author)
 
         if author != BOT_NAME:
-            command = str(msg.content).replace(PREFIX, "").lower()
-            print(command)
+            command = str(msg.content).replace(PREFIX, "")
 
             result = execute_command(command)
 
             await msg.channel.send(result)
 
 client.run(TOKEN)
-
-#TODO pobieranie statystyk z op.gg
