@@ -103,24 +103,10 @@ class Champion:
         items = self._get_items()
         spells = self._get_spells()
 
-        primary_runes_str = ""
-        secondary_runes_str = ""
-        items_str = ""
-        spells_str = ""
-
-        #for primary runes
-        for rune in runes[:4]:
-            primary_runes_str += f"`{rune}`, "
-
-        #for secondary runes
-        for rune in runes[4:]:
-            secondary_runes_str += f"`{rune}`, "
-
-        for item in items:
-            items_str += f"*{item}*, "
-
-        for spell in spells:
-            spells_str += f"*{spell}*, "
+        primary_runes_str = ", ".join(runes[:4])
+        secondary_runes_str = ", ".join(runes[4:])
+        items_str = ", ".join(items)
+        spells_str = ", ".join(spells)
 
         answer = f"""
 Champion: {self.champion_name.capitalize()}
@@ -134,3 +120,7 @@ Build:
 >   {spells_str}"""
 
         return answer
+
+if __name__ == "__main__":
+    champion = Champion("jax")
+    print(champion.get_build())
