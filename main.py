@@ -8,9 +8,10 @@ import os
 
 def get_config():
     DIR = os.getcwd()
+    PATH = f"{DIR}/config.json"
 
     try:
-        json_data = json.load(open(f"{DIR}/config.json"))
+        json_data = json.load(open(PATH))
 
         return json_data
 
@@ -77,7 +78,6 @@ config = get_config()
 
 PREFIX = config["prefix"]
 POSITIONS = ["top", "mid", "adc", "support", "jungle"]
-BOT_NAME = config["bot_name"] # name on discord
 API_KEY = config["api_key"]
 TOKEN = config["token"]
 
@@ -85,13 +85,10 @@ TOKEN = config["token"]
 @client.event
 async def on_message(msg):
     if msg.content.find(PREFIX) != -1:
-        author = str(msg.author)
+        command = str(msg.content).replace(PREFIX, "")
 
-        if author != BOT_NAME:
-            command = str(msg.content).replace(PREFIX, "")
+        result = execute_command(command)
 
-            result = execute_command(command)
-
-            await msg.channel.send(result)
+        await msg.channel.send(result)
 
 client.run(TOKEN)
