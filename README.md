@@ -9,6 +9,7 @@
 ## Features
  - Champion runes, build and summoner spells getting
  - Getting champions for all positions
+ - Getting summoner stats
 
 ## Installation on linux
 ### New systems
