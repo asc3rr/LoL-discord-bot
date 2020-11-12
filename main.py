@@ -4,10 +4,13 @@ import get_pos
 
 import discord
 import json
+import os
 
 def get_config():
+    DIR = os.getcwd()
+
     try:
-        json_data = json.load(open("config.json"))
+        json_data = json.load(open(f"{DIR}/config.json"))
 
         return json_data
 
