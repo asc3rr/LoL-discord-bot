@@ -7,6 +7,8 @@ Usage:
 >>> full_build = champion.get_build()
 """
 
+## TODO getting skills order
+
 from bs4 import BeautifulSoup
 import requests
 
@@ -53,6 +55,22 @@ class Champion:
             runes.append(data[0].replace("The Rune ", ""))
 
         return titles, runes[6:]
+
+    def _get_skill_order(self):
+        url = "https://u.gg/lol/champions/{}/build/".format(self.champion_name)
+        
+        site_content = requests.get(url).content
+        soup = BeautifulSoup(site_content, "html.parser")
+
+        unprocessed_order = soup.find_all("div", class_="skill-label bottom-center")[5:] ## skill-priority-path
+        processed_order = []
+        
+        for data_piece in unprocessed_order:
+            data = str(data_piece).replace('<div class="skill-label bottom-center">', "").replace("</div>", "")
+
+            processed_order.append(data)
+
+        return processed_order
 
     #Working
     def _get_spells(self):
@@ -102,14 +120,16 @@ class Champion:
         titles, runes = self._get_runes()
         items = self._get_items()
         spells = self._get_spells()
+        skill_order = self._get_skill_order()
 
         primary_runes_str = ", ".join(runes[:4])
         secondary_runes_str = ", ".join(runes[4:])
         items_str = ", ".join(items)
         spells_str = ", ".join(spells)
+        skill_order_str = f"**`{skill_order[0]}`** => **`{skill_order[1]}`** => **`{skill_order[2]}`**"
 
         answer = f"""
-Champion: {self.champion_name.capitalize()}
+**Champion:** {self.champion_name.capitalize()}
 Build:
 > **Runy**: 
 >   {titles[0]} => {primary_runes_str}
@@ -117,7 +137,10 @@ Build:
 > **Itemki**: 
 >   {items_str}
 > **Spelle**: 
->   {spells_str}"""
+>   {spells_str}
+
+Kolejność skilli:
+> {skill_order_str}"""
 
         return answer
 
