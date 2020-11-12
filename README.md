@@ -8,6 +8,7 @@
 
 ## Features
  - Champion runes, build and summoner spells getting
+ - Getting skills order for given champion
  - Getting champions for all positions
  - Getting summoner stats
 
