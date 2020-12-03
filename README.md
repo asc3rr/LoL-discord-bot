@@ -11,16 +11,20 @@
  - Getting skills order for given champion
  - Getting champions for all positions
  - Getting summoner stats
+ - Getting champion rotation
 
 ## Installation on linux
 ### New systems
 At the beginning, you have to create `rc-local` service. 
 
 To do this, execute this command:
+
 ```sh
 sudo nano /etc/systemd/system/rc-local.service
 ```
+
 and then insert this data into it:
+
 ```
 [Unit]
  Description=/etc/rc.local Compatibility
@@ -37,12 +41,16 @@ and then insert this data into it:
 [Install]
  WantedBy=multi-user.target
 ```
+
 After previous steps create file `/etc/rc.local`, and insert this:
+
 ```sh
 #!/bin/bash
 python3 /root/league-bot/main.py
 ```
+
 But we need to make it executable, so execute this command:
+
 ```sh
 sudo chmod +x /etc/rc.local
 ```
@@ -52,17 +60,21 @@ Now, we will add this service to system boot, so execute this:
 sudo systemctl enable rc-local
 ```
 
-And the output should look like this:
+Andthe output should look like this:
+
 ```sh
 Created symlink from /etc/systemd/system/multi-user.target.wants/rc-local.service to /etc/systemd/system/rc-local.service.
 ```
 
 At the end we need to start our service and check if this working
+
 ```sh
 sudo systemctl start rc-local.service
 sudo systemctl status rc-local.service
 ```
+
 `sudo systemctl status rc-local.service` should return this:
+
 ```sh
 ● rc-local.service - /etc/rc.local Compatibility
  Loaded: loaded (/etc/systemd/system/rc-local.service; enabled; vendor preset: enabled)
