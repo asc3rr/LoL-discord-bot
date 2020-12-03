@@ -1,4 +1,5 @@
 from get_stats import Player
+import get_rotation
 import get_build
 import get_pos
 
@@ -70,6 +71,11 @@ def execute_command(command):
         player = Player(summoner_name, API_KEY, "eun1", "europe")
 
         return player.get_stats()
+
+    elif command[0].lower() == "rotation":
+        server_name = command[1]
+
+        return get_rotation.get_rotation(server_name, API_KEY)
 
 ## setting up
 client = discord.Client()
