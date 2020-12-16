@@ -50,7 +50,14 @@ class Position:
         ### Returns discord formated string of champions
         """
 
-        champions = self._make_request()
+        unfiltered_champions = self._make_request()
+
+        champions = []
+
+        for champion in unfiltered_champions:
+            if champion not in champions:
+                champions.append(champion)
+
 
         output_string = f"""
 === **Postacie do grania na {self.position_name}** ===
